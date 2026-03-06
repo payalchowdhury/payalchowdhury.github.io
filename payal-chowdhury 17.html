@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payal Chowdhury — Product & Strategy Lead</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:      #f4f1ea;
+      --white:   #fdfcf8;
+      --beige:   #ece7dc;
+      --beige2:  #e2dbd0;
+      --beige3:  #d8d0c4;
+      --ink:     #111009;
+      --ink2:    #1e1c15;
+      --warm:    #c8a97e;
+      --muted:   #7a766e;
+      --mid:     #b8b3aa;
+      --line:    rgba(17,16,9,.08);
+      --line2:   rgba(17,16,9,.14);
+      --serif:   'DM Serif Display',Georgia,serif;
+      --sans:    'Space Grotesk',sans-serif;
+      --shadow-sm: 0 2px 8px rgba(17,16,9,.06);
+      --shadow-md: 0 8px 32px rgba(17,16,9,.1);
+      --shadow-lg: 0 24px 64px rgba(17,16,9,.14);
+    }
+
+    html{scroll-behavior:smooth;}
+    body{
+      background:var(--bg);
+      color:var(--ink);
+      font-family:var(--sans);
+      font-size:14px;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none;}
+    /* ══ NAV — Dynamic floating island ══ */
+    .nav-outer{
+      position:fixed;top:0;left:0;right:0;z-index:500;
+      display:flex;justify-content:center;
+      padding:0 40px;
+      pointer-events:none;
+    }
+    nav{
+      pointer-events:all;
+      width:100%;max-width:1040px;
+      background:rgba(244,241,234,.96);
+      backdrop-filter:blur(24px) saturate(1.4);
+      border:1px solid rgba(17,16,9,.1);
+      border-top:none;
+      border-radius:0 0 22px 22px;
+      box-shadow:0 4px 24px rgba(17,16,9,.07), 0 1px 0 rgba(255,255,255,.6) inset;
+      transition:border-radius .4s cubic-bezier(.4,0,.2,1);
+      overflow:hidden;
+    }
+    /* Collapsed state — just the pill tab */
+    nav.collapsed{
+      border-radius:0 0 20px 20px;
+    }
+    /* Nav links row */
+    .nav-top{
+      display:flex;align-items:center;
+      justify-content:center;
+      padding:14px 28px;
+      gap:0;
+      position:relative;
+      max-height:80px;
+      transition:max-height .4s cubic-bezier(.4,0,.2,1),
+                 padding .4s cubic-bezier(.4,0,.2,1),
+                 opacity .3s ease;
+      opacity:1;
+      overflow:hidden;
+    }
+    nav.collapsed .nav-top{
+      max-height:0;
+      padding-top:0;
+      padding-bottom:0;
+      opacity:0;
+    }
+    /* Collapsed pill — always in DOM, hidden when expanded */
+    .nav-pill{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:0 28px;
+      cursor:pointer;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .4s cubic-bezier(.4,0,.2,1),
+                 padding .4s cubic-bezier(.4,0,.2,1),
+                 opacity .3s ease;
+      opacity:0;
+    }
+    nav.collapsed .nav-pill{
+      max-height:32px;
+      padding:7px 20px;
+      opacity:1;
+    }
+    .nav-pill-dots{
+      display:flex;gap:4px;align-items:center;
+    }
+    .nav-pill-dot{
+      width:3px;height:3px;border-radius:50%;
+      background:var(--muted);
+    }
+    .nav-pill-text{
+      font-size:.52rem;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--muted);
+    }
+    .nav-logo{
+      font-family:var(--serif);
+      font-size:1.05rem;font-weight:700;
+      letter-spacing:.01em;
+    }
+    .nav-top-right{
+      display:flex;align-items:center;gap:20px;
+      position:absolute;right:28px;top:50%;transform:translateY(-50%);
+    }
+    .nav-copy{
+      font-size:.6rem;color:var(--muted);
+      letter-spacing:.06em;
+    }
+    .nav-time{
+      font-size:.6rem;color:var(--muted);
+      letter-spacing:.06em;
+      font-variant-numeric:tabular-nums;
+    }
+    .nav-cart{
+      font-size:.6rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--muted);
+      background:none;border:none;cursor:pointer;
+      font-family:var(--sans);
+      display:flex;align-items:center;gap:8px;
+      transition:color .2s;white-space:nowrap;
+    }
+    .nav-cart:hover{color:var(--ink);}
+    .nav-badge{
+      background:var(--ink);color:var(--white);
+      font-size:.52rem;border-radius:20px;
+      padding:2px 7px;
+    }
+    .nav-links{
+      display:flex;align-items:center;gap:36px;
+    }
+    .nav-links a{
+      font-size:.66rem;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--muted);
+      transition:color .2s;white-space:nowrap;
+    }
+    .nav-links a:hover{color:var(--ink);}
+
+    /* ══ HERO ══ */
+    #hero{
+      min-height:100vh;
+      padding-top:88px;
+      display:flex;flex-direction:column;
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(ellipse 90% 50% at 50% 0%, rgba(215,202,178,.38) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 8% 70%, rgba(200,169,126,.1) 0%, transparent 55%),
+        radial-gradient(ellipse 35% 25% at 92% 65%, rgba(200,169,126,.08) 0%, transparent 50%),
+        var(--bg);
+    }
+
+    /* dot grid background */
+    .hero-dotgrid{ display:none; }
+    /* gradient fade over dots */
+    .hero-dotgrid::after{
+      content:'';position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 75% 55% at 50% 0%, rgba(245,243,238,1) 0%, rgba(245,243,238,.4) 55%, transparent 100%),
+        radial-gradient(ellipse 100% 40% at 50% 100%, rgba(245,243,238,1) 0%, transparent 70%);
+    }
+
+    .hero-inner{
+      position:relative;z-index:1;
+      flex:1;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      text-align:center;
+      padding:60px 80px 40px;
+    }
+    .hero-eyebrow{
+      font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
+      color:var(--muted);margin-bottom:40px;
+      display:flex;align-items:center;gap:18px;
+    }
+    .hero-eyebrow::before,.hero-eyebrow::after{
+      content:'';display:block;
+      width:36px;height:1px;background:var(--mid);
+    }
+    .hero-h1{
+      font-family:var(--serif);
+      font-size:clamp(4rem,9vw,11rem);
+      font-weight:700;line-height:.88;
+      letter-spacing:-.04em;
+      margin-bottom:48px;
+    }
+    .hero-h1 em{font-style:italic;color:var(--warm);font-weight:400;}
+    .hero-sub{
+      font-size:1.05rem;color:var(--muted);
+      max-width:560px;line-height:1.9;
+      font-weight:300;margin-bottom:56px;
+    }
+    .hero-ctas{
+      display:flex;gap:12px;
+      justify-content:center;flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:16px 36px;
+      font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;
+      font-family:var(--sans);cursor:pointer;border:none;
+      transition:all .3s cubic-bezier(.4,0,.2,1);
+    }
+    .btn-dark{background:var(--ink);color:var(--white);}
+    .btn-dark:hover{background:#2a2925;transform:translateY(-2px);}
+    .btn-ghost{background:transparent;color:var(--ink);border:1px solid rgba(20,20,18,.2);}
+    .btn-ghost:hover{border-color:var(--ink);}
+
+    /* hero bottom stats bar */
+    .hero-bar{
+      position:relative;z-index:1;
+      border-top:1px solid var(--line);
+      display:grid;grid-template-columns:repeat(5,1fr);
+      margin-top:auto;
+    }
+    .hbar-item{
+      padding:32px 44px;
+      border-right:1px solid var(--line);
+    }
+    .hbar-item:last-child{border-right:none;}
+    .hbar-num{
+      font-family:var(--serif);
+      font-size:2.4rem;font-weight:400;
+      letter-spacing:-.03em;line-height:1;
+    }
+    .hbar-label{
+      font-size:.58rem;color:var(--muted);
+      letter-spacing:.1em;text-transform:uppercase;
+      margin-top:4px;
+    }
+
+    /* ══ MARQUEE ══ */
+    .marquee{
+      overflow:hidden;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:13px 0;background:var(--beige);
+    }
+    .mtrack{
+      display:flex;width:max-content;
+      animation:mar 26s linear infinite;
+    }
+    .mi{
+      font-size:.6rem;letter-spacing:.2em;
+      text-transform:uppercase;color:var(--muted);
+      padding:0 28px;white-space:nowrap;
+    }
+    @keyframes mar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* ══ SECTION SHELL ══ */
+    .sec{background:var(--white);}
+    .sec.beige{background:var(--beige);}
+
+    /* dot-grid background for beige sections */
+    .sec.beige{
+      background-image:
+        radial-gradient(circle,rgba(20,20,18,.08) 1px,transparent 1px);
+      background-size:24px 24px;
+      background-color:var(--beige);
+    }
+
+    .sec-head{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:80px;align-items:end;
+      padding:120px 80px 72px;
+      border-bottom:1px solid var(--line);
+    }
+    .sec-eye{
+      font-size:.58rem;letter-spacing:.24em;
+      text-transform:uppercase;color:var(--muted);
+      margin-bottom:18px;
+    }
+    .sec-h2{
+      font-family:var(--serif);
+      font-size:clamp(2.8rem,5vw,5.5rem);
+      font-weight:400;line-height:.92;
+      letter-spacing:-.04em;
+    }
+    .sec-h2 em{font-style:italic;}
+    .sec-desc{
+      font-size:.95rem;color:var(--muted);
+      line-height:1.95;font-weight:300;
+    }
+
+    /* ══ WORK ROWS (Docode style) ══ */
+    .work-row{
+      display:grid;
+      grid-template-columns:80px 1fr 180px 60px;
+      align-items:stretch;
+      border-bottom:1px solid var(--line);
+      cursor:pointer;
+      transition:background .2s;
+    }
+    .work-row:hover{background:var(--beige);}
+    .wr-num{
+      padding:32px 0 32px 52px;
+      font-size:.58rem;letter-spacing:.14em;color:var(--muted);
+      display:flex;align-items:flex-start;
+      border-right:1px solid var(--line);
+    }
+    .wr-body{
+      padding:44px 60px;
+      display:flex;flex-direction:column;gap:12px;
+    }
+    .wr-title{
+      font-family:var(--serif);
+      font-size:clamp(1.6rem,2.8vw,2.8rem);
+      font-weight:400;letter-spacing:-.03em;line-height:1;
+    }
+    .wr-desc{
+      font-size:.78rem;color:var(--muted);
+      line-height:1.7;font-weight:300;max-width:500px;
+    }
+    /* image placeholder inside work row */
+    .wr-thumb{
+      width:100%;height:100%;min-height:90px;
+      background:var(--beige2);
+      display:flex;align-items:center;justify-content:center;
+      flex-direction:column;gap:6px;
+      font-size:.55rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--mid);
+      border-left:1px solid var(--line);
+      padding:16px;text-align:center;
+    }
+    .wr-thumb-icon{font-size:1.2rem;opacity:.4;}
+    .wr-meta{
+      padding:32px 28px;
+      display:flex;flex-direction:column;
+      justify-content:space-between;align-items:flex-end;
+      border-left:1px solid var(--line);
+    }
+    .wr-cat{
+      font-size:.56rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--muted);
+      border:1px solid var(--line);
+      padding:5px 10px;text-align:center;
+    }
+    .wr-year{font-size:.58rem;color:var(--mid);}
+    .wr-arrow{
+      font-size:.9rem;color:var(--mid);
+      opacity:0;transition:opacity .2s,transform .2s;
+      transform:translateX(-4px);
+    }
+    .work-row:hover .wr-arrow{opacity:1;transform:translateX(0);}
+
+    /* ══ EXPERTISE ACCORDION (Docode) ══ */
+    .exp-row{
+      border-bottom:1px solid var(--line);
+      cursor:pointer;
+    }
+    .exp-head{
+      display:grid;
+      grid-template-columns:80px 1fr auto;
+      align-items:center;
+      transition:background .2s;
+    }
+    .exp-row.open .exp-head,
+    .exp-head:hover{background:rgba(20,20,18,.03);}
+    .exp-num{
+      padding:28px 0 28px 52px;
+      font-size:.58rem;letter-spacing:.14em;color:var(--muted);
+      border-right:1px solid var(--line);
+      align-self:stretch;display:flex;align-items:center;
+    }
+    .exp-title-wrap{padding:40px 60px;}
+    .exp-title{
+      font-family:var(--serif);
+      font-size:clamp(1.5rem,2.5vw,2.5rem);
+      font-weight:400;letter-spacing:-.03em;
+    }
+    .exp-toggle{
+      padding:28px 36px;
+      border-left:1px solid var(--line);
+      font-size:1.3rem;color:var(--muted);
+      display:flex;align-items:center;justify-content:center;
+      align-self:stretch;
+      transition:transform .3s,color .2s;
+    }
+    .exp-row.open .exp-toggle{transform:rotate(45deg);color:var(--ink);}
+    .exp-body{
+      display:none;
+      border-top:1px solid var(--line);
+      grid-template-columns:80px 1fr 1fr;
+    }
+    .exp-row.open .exp-body{display:grid;}
+    .exp-spacer{border-right:1px solid var(--line);}
+    .exp-left{
+      padding:36px 44px;
+      border-right:1px solid var(--line);
+    }
+    .exp-text{
+      font-size:.85rem;color:var(--muted);
+      line-height:1.85;font-weight:300;
+    }
+    .exp-tags{
+      display:flex;flex-wrap:wrap;gap:8px;
+      margin-top:20px;
+    }
+    .exp-tag{
+      font-size:.56rem;letter-spacing:.1em;
+      text-transform:uppercase;padding:6px 12px;
+      border:1px solid var(--line);color:var(--muted);
+    }
+    .exp-right{padding:36px 44px;}
+    /* image placeholder */
+    .ph-img{
+      width:100%;background:var(--beige2);
+      display:flex;align-items:center;justify-content:center;
+      flex-direction:column;gap:10px;
+      font-size:.58rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--mid);
+      padding:48px 24px;text-align:center;
+      border:1px dashed var(--mid);
+    }
+    .ph-img-icon{font-size:2rem;opacity:.3;}
+    .ph-text{
+      background:var(--beige2);
+      border:1px dashed var(--mid);
+      padding:24px;
+      font-size:.78rem;color:var(--mid);
+      font-style:italic;line-height:1.6;
+      margin-top:16px;
+    }
+
+    /* ══ ABOUT ══ */
+    .about-grid{
+      display:flex;flex-direction:column;
+    }
+
+    .about-top-row{
+      display:flex;flex-direction:row;align-items:stretch;
+      border-bottom:1px solid var(--line);
+    }
+    .about-bottom-row{
+      display:flex;flex-direction:column;
+      padding:40px 52px;
+      border-top:1px solid var(--line);
+    }
+    .about-left{
+      flex:0 0 280px;width:280px;
+      border-right:1px solid var(--line);
+      padding:0;
+      display:flex;flex-direction:column;
+    }
+    /* portrait placeholder */
+    .ph-portrait{
+      width:100%;flex:1;aspect-ratio:unset;max-height:none;min-height:200px;
+      background:var(--beige2);
+      display:flex;align-items:center;justify-content:center;
+      flex-direction:column;gap:10px;
+      border:1px dashed var(--mid);
+      font-size:.58rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--mid);
+    }
+    .ph-portrait-icon{font-size:2.5rem;opacity:.25;}
+    .about-stats{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      border-bottom:1px solid var(--line);
+      padding:20px 0;
+      text-align:center;
+      margin-bottom:24px;
+    }
+    .astat{padding:0 12px;text-align:center;}
+    .astat+.astat{border-left:1px solid var(--line);padding-left:20px;padding-right:0;}
+    .astat-num{
+      font-family:var(--serif);
+      font-size:2rem;font-weight:400;letter-spacing:-.03em;
+    }
+    .astat-label{
+      font-size:.56rem;color:var(--muted);
+      letter-spacing:.08em;text-transform:uppercase;margin-top:2px;
+    }
+    .about-right{flex:1;padding:48px 52px;display:flex;flex-direction:column;}
+    .about-name{
+      font-family:var(--serif);
+      font-size:clamp(2rem,3.5vw,3.5rem);
+      font-weight:400;letter-spacing:-.03em;
+      line-height:1;margin-bottom:28px;
+    }
+    .about-name em{font-style:italic;}
+    .about-body{
+      font-size:.9rem;color:var(--muted);
+      line-height:1.9;font-weight:300;
+    }
+    .about-body p+p{margin-top:16px;}
+    .skills-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:1px;background:var(--line);
+      margin-top:36px;
+    }
+    .skill{
+      background:var(--white);
+      padding:13px 18px;
+      text-align:center;
+      font-size:.6rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--muted);
+      transition:all .2s;cursor:default;
+    }
+    .skill:hover{background:var(--ink);color:var(--white);}
+
+    /* ══ DARK STRIP ══ */
+    .dark-strip{
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(40,36,24,.8) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 80% 30%, rgba(30,26,16,.6) 0%, transparent 65%),
+        var(--ink2);
+      color:var(--white);
+      padding:100px 80px;
+      display:grid;grid-template-columns:1fr 1.8fr;
+      gap:80px;align-items:center;
+      position:relative;overflow:hidden;
+    }
+    .dark-strip::before{
+      content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background-image:radial-gradient(circle, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:32px 32px;
+    }
+    .ds-label{
+      font-size:.56rem;letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.3);margin-bottom:16px;
+    }
+    .ds-quote{
+      font-family:var(--serif);
+      font-size:clamp(1.4rem,2.5vw,2.4rem);
+      font-weight:400;font-style:italic;
+      line-height:1.15;letter-spacing:-.02em;
+    }
+    .ds-right{
+      display:flex;flex-direction:column;gap:24px;
+    }
+    .ds-item{
+      border-bottom:1px solid rgba(255,255,255,.08);
+      padding-bottom:20px;
+    }
+    .ds-item:last-child{border:none;padding:0;}
+    .ds-il{
+      font-size:.56rem;letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.3);margin-bottom:5px;
+    }
+    .ds-iv{font-size:.85rem;color:rgba(255,255,255,.65);}
+
+    /* ══ SHOP ══ */
+    .prod-row{
+      display:grid;
+      grid-template-columns:80px 1fr 120px 160px;
+      align-items:stretch;
+      border-bottom:1px solid var(--line);
+      cursor:pointer;transition:background .2s;
+    }
+    .prod-row:hover{background:rgba(20,20,18,.02);}
+    .pr-num{
+      padding:32px 0 32px 52px;
+      font-size:.58rem;letter-spacing:.14em;color:var(--muted);
+      display:flex;align-items:center;
+      border-right:1px solid var(--line);
+    }
+    .pr-body{
+      padding:32px 44px;
+      display:flex;flex-direction:column;gap:6px;justify-content:center;
+    }
+    .pr-name{
+      font-family:var(--serif);
+      font-size:1.35rem;font-weight:400;letter-spacing:-.01em;
+    }
+    .pr-desc{
+      font-size:.76rem;color:var(--muted);
+      line-height:1.65;font-weight:300;
+    }
+    .pr-type{
+      border-left:1px solid var(--line);
+      padding:32px 20px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:.56rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--muted);
+      text-align:center;
+    }
+    .pr-action{
+      border-left:1px solid var(--line);
+      padding:32px 28px;
+      display:flex;align-items:center;
+      justify-content:space-between;gap:10px;
+    }
+    .pr-price{
+      font-family:var(--serif);
+      font-size:1.4rem;font-weight:400;
+      letter-spacing:-.02em;
+    }
+    .pr-btn{
+      background:var(--ink);color:var(--white);
+      border:none;padding:9px 16px;
+      font-size:.58rem;letter-spacing:.1em;
+      text-transform:uppercase;cursor:pointer;
+      font-family:var(--sans);transition:background .2s;
+      white-space:nowrap;
+    }
+    .pr-btn:hover{background:var(--muted);}
+
+    /* ══ CONTACT ══ */
+    .contact-hero{
+      padding:72px 80px;
+      text-align:center;
+      border-bottom:1px solid var(--line);
+    }
+    .contact-h2{
+      font-family:var(--serif);
+      font-size:clamp(4rem,9vw,10rem);
+      font-weight:400;line-height:.88;letter-spacing:-.05em;
+    }
+    .contact-h2 em{font-style:italic;}
+    .contact-grid{
+      display:grid;grid-template-columns:1fr 1fr;
+    }
+    .contact-info{
+      padding:40px 52px;
+      border-right:1px solid var(--line);
+      display:flex;flex-direction:column;gap:32px;
+    }
+    .ci-label{
+      font-size:.56rem;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--muted);margin-bottom:6px;
+    }
+    .ci-val{font-size:.9rem;}
+    .socials{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+    .socials a{
+      font-size:.68rem;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--muted);
+      display:flex;align-items:center;gap:8px;
+      transition:color .2s;
+    }
+    .socials a::before{content:'↗';font-size:.72rem;}
+    .socials a:hover{color:var(--ink);}
+    .contact-form{padding:40px 52px;display:flex;flex-direction:column;}
+    .cf-row{border-bottom:1px solid var(--line);padding:16px 0;}
+    .cf-label{
+      font-size:.54rem;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+    }
+    .cf-input{
+      background:none;border:none;outline:none;
+      width:100%;font-family:var(--sans);
+      font-size:.9rem;color:var(--ink);font-weight:300;
+    }
+    .cf-input::placeholder{color:rgba(20,20,18,.18);}
+    textarea.cf-input{resize:none;height:80px;line-height:1.7;}
+    .cf-submit{
+      margin-top:32px;background:var(--ink);color:var(--white);
+      border:none;padding:14px 40px;font-size:.64rem;
+      letter-spacing:.14em;text-transform:uppercase;
+      cursor:pointer;font-family:var(--sans);
+      align-self:flex-start;transition:background .2s;
+    }
+    .cf-submit:hover{background:var(--muted);}
+
+    /* ══ FOOTER ══ */
+
+
+  
+    /* ══ GOLDEN ACCENTS ══ */
+    .hero-h1 em, .sec-h2 em, .about-h2 em, .contact-h2 em {
+      color: var(--warm);
+      font-style: italic;
+    }
+    .sec-eye::before {
+      content: '—';
+      color: var(--warm);
+      margin-right: 8px;
+    }
+    .exp-row.open .exp-toggle { color: var(--warm); }
+    .work-row:hover .wr-num { color: var(--warm); }
+    .ds-quote {
+      font-style:italic;
+      font-family:var(--serif);
+      font-size:clamp(1.4rem,2.2vw,2.2rem);
+      line-height:1.25;
+    }
+
+    /* ══ FOOTER ══ */
+    footer{
+      background: var(--ink2);
+      color: var(--white);
+      border-top: none;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      padding: 24px 64px;
+      align-items: center;
+      gap: 40px;
+    }
+    .f-logo{
+      font-family:var(--serif);
+      font-size:.92rem;
+      color:rgba(255,255,255,.7);
+    }
+    .f-links{
+      display:flex;gap:28px;justify-content:center;
+    }
+    .f-links a{
+      font-size:.58rem;letter-spacing:.1em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.45);
+      transition:color .2s;
+    }
+    .f-links a:hover{color:rgba(255,255,255,.9);}
+    .f-copy{
+      font-size:.58rem;
+      color:rgba(255,255,255,.25);
+      text-align:right;
+      letter-spacing:.04em;
+    }
+
+    /* ══ MOTION ══ */
+    .work-row{
+      transition:background .3s ease, transform .35s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+    }
+    .work-row:hover{
+      background:linear-gradient(105deg, var(--beige) 0%, var(--white) 100%);
+      transform:translateX(8px);
+      box-shadow:-4px 0 0 0 var(--warm);
+    }
+    .btn-dark:hover{
+      background:#2a2925;
+      transform:translateY(-3px);
+      box-shadow:0 12px 32px rgba(19,18,16,.18);
+    }
+    .btn-ghost:hover{
+      border-color:var(--ink);
+      transform:translateY(-2px);
+    }
+    .brand-item{
+      transition:background .2s ease, transform .25s cubic-bezier(.4,0,.2,1), box-shadow .2s;
+    }
+    .brand-item:hover{
+      background:var(--beige);
+      transform:translateY(-3px);
+      box-shadow:var(--shadow-sm);
+    }
+    .wr-arrow{
+      transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .2s;
+      opacity:0;
+    }
+    .work-row:hover .wr-arrow{
+      opacity:1;
+      transform:translateX(4px);
+    }
+    .about-pill{
+      transition:all .22s cubic-bezier(.4,0,.2,1);
+    }
+    .about-pill:hover{
+      background:var(--ink2);
+      color:var(--white);
+      border-color:var(--ink2);
+    }
+
+    /* ══ ABOUT LAYOUT FIX ══ */
+    .about-header{
+      padding: 52px 44px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .about-header-left{
+      padding-bottom: 32px;
+    }
+    .about-hero-row{
+      display: grid;
+      grid-template-columns: 45fr 55fr;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .about-hero-left{
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--line);
+      gap: 24px;
+    }
+    .about-hero-right{
+      padding: 40px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .about-photo-card{
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 30%, rgba(40,34,20,.7) 0%, transparent 65%),
+        var(--ink2);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-lg);
+    }
+    .about-photo-monogram{
+      font-family:var(--serif);
+      font-size:clamp(4rem,8vw,8rem);
+      font-weight:400;font-style:italic;
+      color:rgba(255,255,255,.07);
+      line-height:1;
+      position:absolute;right:24px;top:16px;
+      letter-spacing:-.04em;
+      pointer-events:none;
+    }
+    .about-photo-label{
+      font-size:.58rem;letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.35);
+    }
+    .about-pills{
+      display:flex;flex-wrap:wrap;gap:8px;
+    }
+    .about-pill{
+      font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
+      border:1px solid var(--line2);
+      padding:6px 14px;border-radius:999px;
+      color:var(--muted);cursor:default;
+    }
+    .about-body{
+      font-size:.88rem;color:var(--muted);
+      line-height:1.95;font-weight:300;
+      display:flex;flex-direction:column;gap:18px;
+    }
+    .about-h2{
+      margin:16px 0 0;
+      font-size:clamp(2.4rem,4vw,4.5rem);
+    }
+    .about-stats-row{
+      display:grid;grid-template-columns:repeat(5,1fr);
+      border-bottom:1px solid var(--line);
+    }
+    .about-stats-row .astat{
+      padding:32px 52px;
+      border-right:1px solid var(--line);
+      text-align:left;
+    }
+    .about-stats-row .astat:last-child{border-right:none;}
+
+  
+    /* ══ NAV EXTRAS ══ */
+    .nav-wordmark{
+      font-family:var(--serif);
+      font-size:1rem;font-weight:400;font-style:italic;
+      color:var(--ink);letter-spacing:-.02em;
+      position:absolute;left:28px;
+      text-decoration:none;
+      transition:opacity .2s;
+    }
+    .nav-wordmark:hover{ opacity:.5; }
+    .nav-divider{
+      width:1px;height:12px;
+      background:var(--line2);
+      display:inline-block;flex-shrink:0;
+    }
+    /* Underline slide-in on hover + active */
+    .nav-links a{
+      position:relative;
+    }
+    .nav-links a::after{
+      content:'';
+      position:absolute;
+      bottom:-3px;left:0;right:0;
+      height:1px;
+      background:var(--ink);
+      transform:scaleX(0);
+      transform-origin:left center;
+      transition:transform .28s cubic-bezier(.4,0,.2,1);
+    }
+    .nav-links a:hover{ color:var(--ink); }
+    .nav-links a:hover::after{ transform:scaleX(1); }
+    .nav-links a.active{ color:var(--ink); }
+    .nav-links a.active::after{ transform:scaleX(1); }
+
+  
+    /* ══ BRANDS ══ */
+    .brands-row{
+      padding:48px 52px;
+      border-top:1px solid var(--line);
+    }
+    .brands-label{
+      font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;
+      color:var(--muted);margin-bottom:32px;
+    }
+    .brands-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      border-top:1px solid var(--line);
+      border-left:1px solid var(--line);
+    }
+    .brand-item{
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      padding:32px 28px;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      gap:10px;
+      min-height:100px;
+      cursor:default;
+    }
+    .brand-logo{
+      max-width:120px;max-height:44px;
+      width:auto;height:auto;
+      object-fit:contain;
+      filter:grayscale(1) opacity(.5);
+      transition:filter .25s;
+    }
+    .brand-item:hover .brand-logo{
+      filter:grayscale(1) opacity(.85);
+    }
+    .brand-fallback{
+      font-size:.6rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--mid);
+    }
+    .brand-text-only{
+      flex-direction:column;gap:4px;
+    }
+    .brand-nex-logo{
+      font-size:1.1rem;font-weight:600;
+      color:var(--muted);letter-spacing:.02em;
+    }
+    .brand-nex-logo em{
+      font-style:italic;font-family:var(--serif);
+    }
+    .brand-nirlep-logo{
+      font-size:.95rem;font-weight:700;
+      letter-spacing:.1em;color:var(--muted);
+    }
+    .brand-sub{
+      font-size:.52rem;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--mid);
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<div class="nav-outer"><nav>
+  <div class="nav-pill" onclick="toggleNav()">
+    <div class="nav-pill-dots">
+      <div class="nav-pill-dot"></div>
+      <div class="nav-pill-dot"></div>
+      <div class="nav-pill-dot"></div>
+    </div>
+    <span class="nav-pill-text">Menu</span>
+  </div>
+  <div class="nav-top">
+    <a href="#" class="nav-wordmark">PC</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#work">Work</a>
+      <a href="#shop">Shop</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-top-right">
+      <span class="nav-time" id="clock">—</span>
+      <span class="nav-divider"></span>
+      <button class="nav-cart" onclick="toggleCart()">Cart&nbsp;<span class="nav-badge" id="cartCount">0</span></button>
+    </div>
+  </div>
+</nav></div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Product Design &amp; Strategy Lead</div>
+    <h1 class="hero-h1">
+      Building<br>
+      <em>products</em><br>
+      that matter.
+    </h1>
+    <p class="hero-sub">I help teams simplify complex ideas into systems, processes and products people admire and love to use. A decade of shipping thoughtful products and strategies, globally.</p>
+    <div class="hero-ctas">
+      <a href="#work" class="btn btn-dark">View Work →</a>
+      <a href="#about" class="btn btn-ghost">About Me</a>
+    </div>
+  </div>
+  <div class="hero-bar">
+    <div class="hbar-item"><div class="hbar-num">15+</div><div class="hbar-label">Years experience</div></div>
+    <div class="hbar-item"><div class="hbar-num">60+</div><div class="hbar-label">Products shipped</div></div>
+    <div class="hbar-item"><div class="hbar-num">2</div><div class="hbar-label">Patents</div></div>
+    <div class="hbar-item"><div class="hbar-num">6+</div><div class="hbar-label">Design Awards</div></div>
+    <div class="hbar-item"><div class="hbar-num">3</div><div class="hbar-label">Continents worked</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ MARQUEE ═══════════════ -->
+<div class="marquee">
+  <div class="mtrack">
+    <span class="mi">Product Strategy &nbsp;·&nbsp;</span>
+    <span class="mi">Go-to-Market &nbsp;·&nbsp;</span>
+    <span class="mi">UX Thinking &nbsp;·&nbsp;</span>
+    <span class="mi">Roadmapping &nbsp;·&nbsp;</span>
+    <span class="mi">Team Building &nbsp;·&nbsp;</span>
+    <span class="mi">Storytelling &nbsp;·&nbsp;</span>
+    <span class="mi">0→1 Builds &nbsp;·&nbsp;</span>
+    <span class="mi">Consulting &nbsp;·&nbsp;</span>
+    <span class="mi">Product Strategy &nbsp;·&nbsp;</span>
+    <span class="mi">Go-to-Market &nbsp;·&nbsp;</span>
+    <span class="mi">UX Thinking &nbsp;·&nbsp;</span>
+    <span class="mi">Roadmapping &nbsp;·&nbsp;</span>
+    <span class="mi">Team Building &nbsp;·&nbsp;</span>
+    <span class="mi">Storytelling &nbsp;·&nbsp;</span>
+    <span class="mi">0→1 Builds &nbsp;·&nbsp;</span>
+    <span class="mi">Consulting &nbsp;·&nbsp;</span>
+  </div>
+</div>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section id="about" class="sec">
+  <!-- Row A: label + heading, full width -->
+  <div class="about-header rv">
+    <div class="about-header-left">
+      <div class="sec-eye">About Me</div>
+      <h2 class="sec-h2 about-h2">Thinking in systems<br><em>&amp; stories</em></h2>
+    </div>
+  </div>
+  <!-- Row B: photo left | bio right — perfectly top-aligned -->
+  <div class="about-hero-row">
+    <div class="about-hero-left rv">
+      <div class="about-photo-card">
+        <div class="about-photo-monogram">PC</div>
+        <div class="about-photo-label">Payal Chowdhury · Product &amp; Strategy</div>
+      </div>
+      <div class="about-pills">
+        <span class="about-pill">Product Strategy</span>
+        <span class="about-pill">Go-to-Market</span>
+        <span class="about-pill">UX Thinking</span>
+        <span class="about-pill">Roadmapping</span>
+        <span class="about-pill">Team Building</span>
+        <span class="about-pill">Storytelling</span>
+        <span class="about-pill">0→1 Builds</span>
+        <span class="about-pill">Consulting</span>
+      </div>
+    </div>
+    <div class="about-hero-right rv d1">
+      <div class="about-body">
+        <p>I'm Payal — a product design and strategy lead who believes the best work lives at the intersection of rigorous thinking and genuine creativity. I've spent over a decade leading creative programs and driving the end-to-end delivery of over 100 products across 10+ brands and global teams. I specialise in managing complex creative pipelines that span both physical and digital touch points. What excites me most is helping teams build products that people admire and actually want to use.</p>
+        <p>I've worked across three continents with startups, scale-ups, and enterprises — always brought clarity where there's ambiguity, and momentum where things have stalled.</p>
+        <p>I create — frameworks, tools, and resources that distil complex ideas into something clear and actionable.</p>
+        <p>Currently open to consulting, collaborations, and speaking engagements globally.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Brand logos -->
+  <div class="brands-row rv">
+    <div class="brands-label">Brands I've worked with</div>
+    <div class="brands-grid">
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Frog_Design_logo.svg/200px-Frog_Design_logo.svg.png" alt="Frog Design" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Frog Design</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Capgemini_201x_logo.svg/200px-Capgemini_201x_logo.svg.png" alt="Capgemini" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Capgemini</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Tata_Elxsi_Logo.svg/200px-Tata_Elxsi_Logo.svg.png" alt="Tata Elxsi" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Tata Elxsi</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Bajaj_Electricals_Logo.svg/200px-Bajaj_Electricals_Logo.svg.png" alt="Bajaj Electricals" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Bajaj Electricals</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Nokia_wordmark.svg/200px-Nokia_wordmark.svg.png" alt="Nokia" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Nokia</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/ITC_Limited_Logo.svg/200px-ITC_Limited_Logo.svg.png" alt="ITC Limited" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">ITC Limited</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Godrej_Logo.svg/200px-Godrej_Logo.svg.png" alt="Godrej" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Godrej Appliances</span>
+      </div>
+      <div class="brand-item">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Morphy_Richards_Logo.svg/200px-Morphy_Richards_Logo.svg.png" alt="Morphy Richards" class="brand-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <span class="brand-fallback">Morphy Richards</span>
+      </div>
+      <div class="brand-item brand-text-only">
+        <span class="brand-nex-logo"><em>ń</em> nex</span>
+        <span class="brand-sub">by Bajaj</span>
+      </div>
+      <div class="brand-item brand-text-only">
+        <span class="brand-nirlep-logo">NIRLEP</span>
+        <span class="brand-sub">by Bajaj</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ EXPERTISE ═══════════════ -->
+<section id="expertise" class="sec beige">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eye rv">Expertise</div>
+      <h2 class="sec-h2 rv d1">What I<br><em>do best</em></h2>
+    </div>
+    <p class="sec-desc rv d2">The skills and disciplines I've honed across a decade of shipping products, leading teams, and driving strategy at scale.</p>
+  </div>
+
+  <div class="exp-row rv" onclick="toggleExp(this)">
+    <div class="exp-head">
+      <div class="exp-num">01</div>
+      <div class="exp-title-wrap"><div class="exp-title">Product Strategy</div></div>
+      <div class="exp-toggle">+</div>
+    </div>
+    <div class="exp-body">
+      <div class="exp-spacer"></div>
+      <div class="exp-left">
+        <div class="exp-text">I define product vision, set strategy, and build the roadmaps that connect daily decisions to long-term business goals. I work at the intersection of user needs, business outcomes, and technical reality — translating ambiguity into clear direction that teams can actually execute on.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Roadmapping</span><span class="exp-tag">Vision Setting</span>
+          <span class="exp-tag">Prioritisation</span><span class="exp-tag">OKRs</span>
+        </div>
+        <div class="ph-text">[ Add a brief note about a specific project or outcome here ]</div>
+      </div>
+      <div class="exp-right">
+        <div class="ph-img"><div class="ph-img-icon">🖼</div>Add image or screenshot</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-row rv d1" onclick="toggleExp(this)">
+    <div class="exp-head">
+      <div class="exp-num">02</div>
+      <div class="exp-title-wrap"><div class="exp-title">Go-to-Market</div></div>
+      <div class="exp-toggle">+</div>
+    </div>
+    <div class="exp-body">
+      <div class="exp-spacer"></div>
+      <div class="exp-left">
+        <div class="exp-text">From ICP definition to launch day and beyond — I build GTM strategies that are grounded in research and built to scale. I've led launches across B2B SaaS, consumer products, and enterprise software in multiple markets across three continents.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">ICP Definition</span><span class="exp-tag">Channel Strategy</span>
+          <span class="exp-tag">Launch Planning</span><span class="exp-tag">Sales Enablement</span>
+        </div>
+        <div class="ph-text">[ Add a brief note about a specific project or outcome here ]</div>
+      </div>
+      <div class="exp-right">
+        <div class="ph-img"><div class="ph-img-icon">🖼</div>Add image or screenshot</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-row rv d2" onclick="toggleExp(this)">
+    <div class="exp-head">
+      <div class="exp-num">03</div>
+      <div class="exp-title-wrap"><div class="exp-title">UX Thinking</div></div>
+      <div class="exp-toggle">+</div>
+    </div>
+    <div class="exp-body">
+      <div class="exp-spacer"></div>
+      <div class="exp-left">
+        <div class="exp-text">I think deeply about how people experience products — from the first click to the hundredth. I use qualitative research, usability testing, and data to identify friction, then design flows that feel effortless. The best UX is invisible — it just works.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">User Research</span><span class="exp-tag">Usability Testing</span>
+          <span class="exp-tag">Flow Design</span><span class="exp-tag">Prototyping</span>
+        </div>
+        <div class="ph-text">[ Add a brief note about a specific project or outcome here ]</div>
+      </div>
+      <div class="exp-right">
+        <div class="ph-img"><div class="ph-img-icon">🖼</div>Add image or screenshot</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exp-row rv" onclick="toggleExp(this)">
+    <div class="exp-head">
+      <div class="exp-num">04</div>
+      <div class="exp-title-wrap"><div class="exp-title">Team &amp; Leadership</div></div>
+      <div class="exp-toggle">+</div>
+    </div>
+    <div class="exp-body">
+      <div class="exp-spacer"></div>
+      <div class="exp-left">
+        <div class="exp-text">I build and lead cross-functional teams — bringing together engineers, designers, marketers and stakeholders around a shared goal. I believe the best product decisions happen when diverse perspectives are heard, trusted, and acted on with speed.</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Cross-functional</span><span class="exp-tag">Stakeholder Mgmt</span>
+          <span class="exp-tag">Hiring</span><span class="exp-tag">Mentoring</span>
+        </div>
+        <div class="ph-text">[ Add a brief note about a specific project or outcome here ]</div>
+      </div>
+      <div class="exp-right">
+        <div class="ph-img"><div class="ph-img-icon">🖼</div>Add image or screenshot</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ WORK ═══════════════ -->
+<section id="work" class="sec">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eye rv">Selected Work</div>
+      <h2 class="sec-h2 rv d1">Projects &amp;<br><em>Case Studies</em></h2>
+    </div>
+    <p class="sec-desc rv d2">A selection of strategy, product, and research projects — each one a story about thinking, making, and shipping. Full case studies coming soon.</p>
+  </div>
+
+  <div class="work-row rv">
+    <div class="wr-num">(01)</div>
+    <div class="wr-body">
+      <div class="wr-title">Growth Platform Redesign</div>
+      <div class="wr-desc">End-to-end redesign of a core growth platform — rethinking onboarding, activation and retention flows to drive measurable product-led growth.</div>
+    </div>
+    <div class="wr-thumb"><div class="wr-thumb-icon">🖼</div>Add project image</div>
+    <div class="wr-meta"><div class="wr-year">2025</div><div class="wr-arrow">→</div></div>
+  </div>
+
+  <div class="work-row rv d1">
+    <div class="wr-num">(02)</div>
+    <div class="wr-body">
+      <div class="wr-title">B2B Launch Playbook</div>
+      <div class="wr-desc">Full go-to-market strategy built from scratch — market segmentation, ICP definition, channel strategy and sales enablement for a B2B SaaS product.</div>
+    </div>
+    <div class="wr-thumb"><div class="wr-thumb-icon">🖼</div>Add project image</div>
+    <div class="wr-meta"><div class="wr-year">2025</div><div class="wr-arrow">→</div></div>
+  </div>
+
+  <div class="work-row rv d2">
+    <div class="wr-num">(03)</div>
+    <div class="wr-body">
+      <div class="wr-title">Onboarding Overhaul</div>
+      <div class="wr-desc">Diagnosed a 68% drop-off in the first 5 minutes of product use. Redesigned the onboarding experience end-to-end, reducing drop-off by 28% in 6 weeks.</div>
+    </div>
+    <div class="wr-thumb"><div class="wr-thumb-icon">🖼</div>Add project image</div>
+    <div class="wr-meta"><div class="wr-year">2024</div><div class="wr-arrow">→</div></div>
+  </div>
+
+  <div class="work-row rv">
+    <div class="wr-num">(04)</div>
+    <div class="wr-body">
+      <div class="wr-title">0→1 Product Build</div>
+      <div class="wr-desc">Took a concept from napkin sketch to launched product in 4 months — user research, prototyping, team assembly, and go-live without a single missed deadline.</div>
+    </div>
+    <div class="wr-thumb"><div class="wr-thumb-icon">🖼</div>Add project image</div>
+    <div class="wr-meta"><div class="wr-year">2024</div><div class="wr-arrow">→</div></div>
+  </div>
+
+  <div class="work-row rv d1">
+    <div class="wr-num">(05)</div>
+    <div class="wr-body">
+      <div class="wr-title">Market Mapping Study</div>
+      <div class="wr-desc">Competitive landscape research and opportunity sizing that directly informed a €2M product investment decision — 40 interviews, 12 markets, 1 clear recommendation.</div>
+    </div>
+    <div class="wr-thumb"><div class="wr-thumb-icon">🖼</div>Add project image</div>
+    <div class="wr-meta"><div class="wr-year">2023</div><div class="wr-arrow">→</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ DARK STRIP ═══════════════ -->
+<div class="dark-strip rv">
+  <div>
+    <div class="ds-label">( Philosophy )</div>
+    <div class="ds-quote">"The best products don't shout. They make people feel understood."</div>
+  </div>
+  <div class="ds-right">
+    <div class="ds-item"><div class="ds-il">Currently open for</div><div class="ds-iv">Consulting · Collaborations · Speaking</div></div>
+    <div class="ds-item"><div class="ds-il">Email</div><div class="ds-iv"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85f5e4fce4e9c5fceaf0f7f6ecf1e0abe6eae8">[email&#160;protected]</a></div></div>
+    <div class="ds-item"><div class="ds-il">Location</div><div class="ds-iv">Global — available everywhere</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ SHOP ═══════════════ -->
+<section id="shop" class="sec beige">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eye rv">Shop</div>
+      <h2 class="sec-h2 rv d1">Resources &amp;<br><em>Creations</em></h2>
+    </div>
+    <p class="sec-desc rv d2">Frameworks, tools and physical products — things I've made and use myself. Built for product thinkers, strategists, and makers. More being created all the time.</p>
+  </div>
+
+  <div class="prod-row rv">
+    <div class="pr-num">(01)</div>
+    <div class="pr-body"><div class="pr-name">Product Roadmap Kit</div><div class="pr-desc">A complete roadmap framework with templates, scoring models, and stakeholder decks — everything you need to align your team and ship with confidence.</div></div>
+    <div class="pr-type">Digital · PDF</div>
+    <div class="pr-action"><span class="pr-price">€29</span><button class="pr-btn" onclick="addToCart('Product Roadmap Kit',29)">Add</button></div>
+  </div>
+  <div class="prod-row rv d1">
+    <div class="pr-num">(02)</div>
+    <div class="pr-body"><div class="pr-name">Strategy Thinking Guide</div><div class="pr-desc">My personal framework for thinking through complex strategy problems — the exact mental models I use when the path forward isn't clear. Step by step.</div></div>
+    <div class="pr-type">Digital · Guide</div>
+    <div class="pr-action"><span class="pr-price">€19</span><button class="pr-btn" onclick="addToCart('Strategy Thinking Guide',19)">Add</button></div>
+  </div>
+  <div class="prod-row rv d2">
+    <div class="pr-num">(03)</div>
+    <div class="pr-body"><div class="pr-name">Workshop Card Deck</div><div class="pr-desc">60 beautifully printed facilitation cards for product workshops and strategy sessions. Designed to spark better conversations and faster decisions in any room.</div></div>
+    <div class="pr-type">Physical · Printed</div>
+    <div class="pr-action"><span class="pr-price">€45</span><button class="pr-btn" onclick="addToCart('Workshop Card Deck',45)">Add</button></div>
+  </div>
+  <div class="prod-row rv d3" style="opacity:.4;pointer-events:none">
+    <div class="pr-num">(04)</div>
+    <div class="pr-body"><div class="pr-name">More coming soon</div><div class="pr-desc">New resources, tools and physical products are in progress. Get in touch to be notified first.</div></div>
+    <div class="pr-type">Soon</div>
+    <div class="pr-action"><span class="pr-price">—</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section id="contact" class="sec">
+  <div class="contact-hero rv">
+    <h2 class="contact-h2">Let's work<br><em>together</em></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info rv">
+      <div><div class="ci-label">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cbbbaab2aaa78bb2a4beb9b8a2bfaee5a8a4a6">[email&#160;protected]</a></div></div>
+      <div><div class="ci-label">Available for</div><div class="ci-val">Consulting · Collaborations · Speaking</div></div>
+      <div><div class="ci-label">Location</div><div class="ci-val">Global — available everywhere</div></div>
+      <div>
+        <div class="ci-label">Find me online</div>
+        <div class="socials">
+          <a href="#">LinkedIn</a>
+          <a href="#">Instagram</a>
+          <a href="#">Substack</a>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form rv d1">
+      <div class="cf-row"><div class="cf-label">Name</div><input class="cf-input" type="text" placeholder="Your name"/></div>
+      <div class="cf-row"><div class="cf-label">Email</div><input class="cf-input" type="email" placeholder="your@email.com"/></div>
+      <div class="cf-row"><div class="cf-label">Subject</div><input class="cf-input" type="text" placeholder="What's this about?"/></div>
+      <div class="cf-row"><div class="cf-label">Message</div><textarea class="cf-input" placeholder="Tell me about your project or idea..."></textarea></div>
+      <button class="cf-submit" onclick="showToast('Message sent — I\'ll be in touch soon.')">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="f-logo"><em>Payal</em> Chowdhury</div>
+  <div class="f-links">
+    <a href="#about">About</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#work">Work</a>
+    <a href="#shop">Shop</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="f-copy">©2026 All rights reserved</div>
+</footer>
+
+<!-- CART -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="dh"><span class="dh-title">Cart</span><button class="dh-close" onclick="toggleCart()">✕</button></div>
+  <div class="db" id="dBody"></div>
+  <div class="df" id="dFoot" style="display:none">
+    <div class="df-total"><span class="df-tl">Total</span><span class="df-tn" id="dTotal">€0</span></div>
+    <button class="df-btn" onclick="showToast('Connect Stripe or Gumroad to enable checkout.')">Checkout</button>
+    <div class="df-note">Stripe · PayPal · Apple Pay</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Clock — Luxembourg time
+  function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Luxembourg'})+' LUX';}
+  tick();setInterval(tick,1000);
+
+  // Cursor
+  const cur=document.getElementById('cur');
+  document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+  document.querySelectorAll('a,button,.work-row,.prod-row,.exp-row,.skill').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+    el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+  });
+
+  // Hero entrance
+  window.addEventListener('load',()=>{
+    if(typeof gsap!=='undefined'){
+      gsap.from('.hero-eyebrow',{y:16,opacity:0,duration:.7,ease:'power3.out',delay:.1});
+      gsap.from('.hero-h1',{y:60,opacity:0,duration:1.1,ease:'power4.out',delay:.2});
+      gsap.from('.hero-sub',{y:24,opacity:0,duration:.8,ease:'power3.out',delay:.45});
+      gsap.from('.hero-ctas',{y:16,opacity:0,duration:.7,ease:'power3.out',delay:.6});
+      gsap.from('.hero-bar',{y:20,opacity:0,duration:.8,ease:'power3.out',delay:.55});
+    }
+  });
+
+  // Scroll reveals
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0});
+  document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+  // Expertise accordion
+  function toggleExp(row){
+    const isOpen=row.classList.contains('open');
+    document.querySelectorAll('.exp-row').forEach(r=>r.classList.remove('open'));
+    if(!isOpen)row.classList.add('open');
+  }
+
+  // Cart
+  let cart=[];
+  function addToCart(name,price){
+    cart.push({name,price});updateCart();showToast(name+' added');
+    if(!document.getElementById('drawer').classList.contains('open'))toggleCart();
+  }
+  function removeFromCart(i){cart.splice(i,1);updateCart();}
+  function updateCart(){
+    document.getElementById('cartCount').textContent=cart.length;
+    const b=document.getElementById('dBody'),f=document.getElementById('dFoot');
+    if(!cart.length){b.innerHTML='';f.style.display='none';return;}
+    f.style.display='block';
+    document.getElementById('dTotal').textContent='€'+cart.reduce((s,i)=>s+i.price,0);
+    b.innerHTML=cart.map((it,i)=>`<div class="di"><div><div class="di-name">${it.name}</div><div class="di-price">€${it.price}</div></div><button class="di-rm" onclick="removeFromCart(${i})">✕</button></div>`).join('');
+  }
+  function toggleCart(){
+    document.getElementById('drawer').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  }
+
+  // Toast
+  let toastTimer;
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg;t.classList.add('show');
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
+  }
+
+  // Dynamic nav — collapses on scroll, expands on click
+  const navEl = document.querySelector('nav');
+  let lastScrollY = 0;
+  let ticking = false;
+
+  function collapseNav(){
+    navEl.classList.add('collapsed');
+  }
+  function expandNav(){
+    navEl.classList.remove('collapsed');
+  }
+  function toggleNav(){
+    navEl.classList.contains('collapsed') ? expandNav() : collapseNav();
+  }
+
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){
+      window.requestAnimationFrame(()=>{
+        const currentY = window.scrollY;
+        if(currentY > 100 && currentY > lastScrollY){
+          collapseNav();
+        } else if(currentY < 80){
+          expandNav();
+        }
+        lastScrollY = currentY;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, {passive:true});
+
+  // Count-up animation for stat numbers
+  function animateCount(el){
+    const target = parseFloat(el.textContent.replace(/[^0-9.]/g,''));
+    const suffix = el.textContent.replace(/[0-9.]/g,'');
+    if(isNaN(target)||target===0) return;
+    const duration=1400, start=performance.now();
+    function step(now){
+      const p=Math.min((now-start)/duration,1);
+      const ease=1-Math.pow(1-p,4);
+      el.textContent=Math.floor(ease*target)+suffix;
+      if(p<1) requestAnimationFrame(step);
+      else el.textContent=target+suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  const statObs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.hbar-num,.astat-num').forEach(animateCount);
+        statObs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.3});
+  document.querySelectorAll('.hero-bar,.about-stats-row').forEach(el=>statObs.observe(el));
+
+  // Scroll progress bar
+  const progressBar=document.createElement('div');
+  progressBar.id='progress-bar';
+  progressBar.style.cssText='position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,#c8a97e,#111009);z-index:9999;width:0%;transition:width .15s linear;pointer-events:none;opacity:.55;';
+  document.body.appendChild(progressBar);
+  window.addEventListener('scroll',()=>{
+    const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+    progressBar.style.width=pct+'%';
+  },{passive:true});
+
+  // Active nav link on scroll
+  const sections=document.querySelectorAll('section[id]');
+  const navLinks=document.querySelectorAll('.nav-links a');
+  const activeObs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        navLinks.forEach(a=>a.classList.remove('active'));
+        const link=document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if(link) link.classList.add('active');
+      }
+    });
+  },{threshold:0.35});
+  sections.forEach(s=>activeObs.observe(s));
+</script>
+</body>
+</html>
